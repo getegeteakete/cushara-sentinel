@@ -13,8 +13,10 @@ import {
   AlertTriangle,
   FileText
 } from "lucide-react";
+import { useState } from "react";
 
 const AboutAI = () => {
+  const [language, setLanguage] = useState<'ja' | 'en'>('ja');
   return (
     <div className="min-h-screen bg-background">
       {/* ヘッダー */}
@@ -27,16 +29,26 @@ const AboutAI = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold">CusHara Sentinel</h1>
-                <p className="text-sm text-muted-foreground">AI活用カスハラ対策システム</p>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ja' ? 'AI活用カスハラ対策システム' : 'AI-Powered Customer Harassment Prevention System'}
+                </p>
               </div>
             </div>
             
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
+              <Button 
+                variant={language === 'ja' ? "default" : "outline"} 
+                size="sm"
+                onClick={() => setLanguage('ja')}
+              >
                 <Languages className="w-4 h-4 mr-2" />
                 日本語
               </Button>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant={language === 'en' ? "default" : "outline"} 
+                size="sm"
+                onClick={() => setLanguage('en')}
+              >
                 English
               </Button>
             </div>
@@ -48,10 +60,16 @@ const AboutAI = () => {
         {/* メインタイトル */}
         <div className="text-center space-y-4">
           <h2 className="text-4xl font-bold text-primary">
-            当社はAIを活用してカスタマーハラスメント対策を実施しています
+            {language === 'ja' 
+              ? '当社はAIを活用してカスタマーハラスメント対策を実施しています'
+              : 'We implement customer harassment countermeasures using AI technology'
+            }
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            最新のAI技術により、お客様とのコミュニケーションを適切に分析し、従業員の働きやすい環境づくりに取り組んでいます。
+            {language === 'ja'
+              ? '最新のAI技術により、お客様とのコミュニケーションを適切に分析し、従業員の働きやすい環境づくりに取り組んでいます。'
+              : 'Using the latest AI technology, we appropriately analyze communications with customers and work to create a comfortable working environment for employees.'
+            }
           </p>
         </div>
 
@@ -60,10 +78,13 @@ const AboutAI = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Brain className="w-6 h-6 text-primary" />
-              <span>使用AIの概要</span>
+              <span>{language === 'ja' ? '使用AIの概要' : 'AI System Overview'}</span>
             </CardTitle>
             <CardDescription>
-              当社が導入しているAIシステムの詳細について
+              {language === 'ja' 
+                ? '当社が導入しているAIシステムの詳細について'
+                : 'Details about the AI system implemented by our company'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -71,28 +92,52 @@ const AboutAI = () => {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center space-x-2">
                   <CheckCircle className="w-5 h-5 text-success" />
-                  <span>AI技術仕様</span>
+                  <span>{language === 'ja' ? 'AI技術仕様' : 'AI Technology Specifications'}</span>
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• 大規模言語モデル（GPT-4o-mini等）による自然言語処理</li>
-                  <li>• 音声認識技術（OpenAI Whisper API）による通話内容解析</li>
-                  <li>• リアルタイム感情分析とリスクスコア算出</li>
-                  <li>• 東京都の条例・指針に基づく判定アルゴリズム</li>
+                  {language === 'ja' ? (
+                    <>
+                      <li>• 大規模言語モデル（GPT-4o-mini等）による自然言語処理</li>
+                      <li>• 音声認識技術（OpenAI Whisper API）による通話内容解析</li>
+                      <li>• リアルタイム感情分析とリスクスコア算出</li>
+                      <li>• 東京都の条例・指針に基づく判定アルゴリズム</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>• Natural language processing using large language models (GPT-4o-mini, etc.)</li>
+                      <li>• Call content analysis using speech recognition technology (OpenAI Whisper API)</li>
+                      <li>• Real-time emotion analysis and risk score calculation</li>
+                      <li>• Judgment algorithms based on Tokyo Metropolitan Government ordinances and guidelines</li>
+                    </>
+                  )}
                 </ul>
               </div>
               
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center space-x-2">
                   <FileText className="w-5 h-5 text-primary" />
-                  <span>判定カテゴリ</span>
+                  <span>{language === 'ja' ? '判定カテゴリ' : 'Assessment Categories'}</span>
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline">暴言・侮辱</Badge>
-                  <Badge variant="outline">脅迫行為</Badge>
-                  <Badge variant="outline">過度な要求</Badge>
-                  <Badge variant="outline">長時間拘束</Badge>
-                  <Badge variant="outline">人格否定</Badge>
-                  <Badge variant="outline">違法行為</Badge>
+                  {language === 'ja' ? (
+                    <>
+                      <Badge variant="outline">暴言・侮辱</Badge>
+                      <Badge variant="outline">脅迫行為</Badge>
+                      <Badge variant="outline">過度な要求</Badge>
+                      <Badge variant="outline">長時間拘束</Badge>
+                      <Badge variant="outline">人格否定</Badge>
+                      <Badge variant="outline">違法行為</Badge>
+                    </>
+                  ) : (
+                    <>
+                      <Badge variant="outline">Verbal Abuse</Badge>
+                      <Badge variant="outline">Threats</Badge>
+                      <Badge variant="outline">Excessive Demands</Badge>
+                      <Badge variant="outline">Long-term Restraint</Badge>
+                      <Badge variant="outline">Personal Attacks</Badge>
+                      <Badge variant="outline">Illegal Acts</Badge>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -104,10 +149,13 @@ const AboutAI = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <AlertTriangle className="w-6 h-6 text-warning" />
-              <span>利用範囲と目的</span>
+              <span>{language === 'ja' ? '利用範囲と目的' : 'Usage Scope and Purpose'}</span>
             </CardTitle>
             <CardDescription>
-              AIシステムの適用範囲と利用目的について
+              {language === 'ja'
+                ? 'AIシステムの適用範囲と利用目的について'
+                : 'About the scope and purpose of AI system application'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -116,9 +164,12 @@ const AboutAI = () => {
                 <div className="p-3 bg-primary-muted rounded-full w-fit mx-auto">
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">メール対応</h3>
+                <h3 className="font-semibold">{language === 'ja' ? 'メール対応' : 'Email Support'}</h3>
                 <p className="text-sm text-muted-foreground">
-                  お客様からのメールやお問い合わせフォームへの投稿内容を分析
+                  {language === 'ja'
+                    ? 'お客様からのメールやお問い合わせフォームへの投稿内容を分析'
+                    : 'Analysis of emails and inquiries from customers through contact forms'
+                  }
                 </p>
               </div>
               
@@ -126,9 +177,12 @@ const AboutAI = () => {
                 <div className="p-3 bg-warning-muted rounded-full w-fit mx-auto">
                   <Phone className="w-6 h-6 text-warning" />
                 </div>
-                <h3 className="font-semibold">電話対応</h3>
+                <h3 className="font-semibold">{language === 'ja' ? '電話対応' : 'Phone Support'}</h3>
                 <p className="text-sm text-muted-foreground">
-                  通話内容の記録・書き起こしデータの分析
+                  {language === 'ja'
+                    ? '通話内容の記録・書き起こしデータの分析'
+                    : 'Analysis of recorded call content and transcription data'
+                  }
                 </p>
               </div>
               
@@ -136,9 +190,12 @@ const AboutAI = () => {
                 <div className="p-3 bg-success-muted rounded-full w-fit mx-auto">
                   <Shield className="w-6 h-6 text-success" />
                 </div>
-                <h3 className="font-semibold">従業員保護</h3>
+                <h3 className="font-semibold">{language === 'ja' ? '従業員保護' : 'Employee Protection'}</h3>
                 <p className="text-sm text-muted-foreground">
-                  従業員の心理的安全性確保と適切な労働環境の維持
+                  {language === 'ja'
+                    ? '従業員の心理的安全性確保と適切な労働環境の維持'
+                    : 'Ensuring employee psychological safety and maintaining proper work environment'
+                  }
                 </p>
               </div>
             </div>
@@ -160,10 +217,13 @@ const AboutAI = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Lock className="w-6 h-6 text-success" />
-              <span>プライバシー保護への取り組み</span>
+              <span>{language === 'ja' ? 'プライバシー保護への取り組み' : 'Privacy Protection Initiatives'}</span>
             </CardTitle>
             <CardDescription>
-              個人情報保護と安全性確保について
+              {language === 'ja'
+                ? '個人情報保護と安全性確保について'
+                : 'About personal information protection and security assurance'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -196,10 +256,13 @@ const AboutAI = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Phone className="w-6 h-6" />
-              <span>東京都カスタマーハラスメント総合相談窓口</span>
+              <span>{language === 'ja' ? '東京都カスタマーハラスメント総合相談窓口' : 'Tokyo Metropolitan Customer Harassment General Consultation Center'}</span>
             </CardTitle>
             <CardDescription className="text-primary-foreground/80">
-              事業者、従業員だけでなく、顧客等も対象に、カスハラ全般に関する相談に対応します
+              {language === 'ja'
+                ? '事業者、従業員だけでなく、顧客等も対象に、カスハラ全般に関する相談に対応します'
+                : 'We provide consultation on customer harassment for businesses, employees, and customers'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
