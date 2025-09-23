@@ -1,141 +1,107 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/hooks/useAuth";
+import { useIncidents } from "@/hooks/useIncidents";
 import { 
-  AlertTriangle, 
-  TrendingUp, 
-  Users, 
+  Shield, 
   FileText, 
   Clock, 
-  Shield,
+  AlertTriangle, 
   CheckCircle,
-  XCircle,
-  Activity
+  Users,
+  TrendingUp,
+  Bell,
+  Plus,
+  LogOut
 } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const [user, setUser] = useState<any>(null);
+  const { user, signOut } = useAuth();
+  const { data: incidents, isLoading } = useIncidents();
 
-  useEffect(() => {
-    const userData = localStorage.getItem("cushara_user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    } else {
-      window.location.href = "/login";
-    }
-  }, []);
+  // Calculate statistics
+  const totalIncidents = incidents?.length || 0;
+  const pendingIncidents = incidents?.filter(i => i.status === 'pending' || i.status === 'reviewing').length || 0;
+  const highRiskIncidents = incidents?.filter(i => i.ai_risk_score && i.ai_risk_score >= 80).length || 0;
+  const resolvedIncidents = incidents?.filter(i => i.status === 'resolved').length || 0;
 
-  // ダミーデータ
-  const stats = {
-    totalIncidents: 47,
-    pendingReviews: 12,
-    highRiskCases: 5,
-    resolvedThisMonth: 23
+  const handleLogout = async () => {
+    await signOut();
   };
 
-  const recentIncidents = [
-    {
-      id: "INC-001",
-      type: "メール",
-      category: ["暴言", "過度な要求"],
-      riskScore: 85,
-      status: "pending",
-      createdAt: "2024-01-15T10:30:00Z",
-      description: "営業時間外の緊急対応要求と暴言を含むメール"
-    },
-    {
-      id: "INC-002", 
-      type: "音声通話",
-      category: ["長時間拘束", "人格否定"],
-      riskScore: 92,
-      status: "reviewing",
-      createdAt: "2024-01-14T15:45:00Z",
-      description: "3時間にわたる電話での執拗な要求と人格攻撃"
-    },
-    {
-      id: "INC-003",
-      type: "メール",
-      category: ["脅迫"],
-      riskScore: 95,
-      status: "escalated", 
-      createdAt: "2024-01-13T09:15:00Z",
-      description: "法的措置を匂わせる脅迫的内容"
-    }
-  ];
-
-  const getRiskColor = (score: number) => {
-    if (score >= 80) return "danger";
-    if (score >= 60) return "warning";
-    return "success";
-  };
-
-  const getStatusBadge = (status: string) => {
-    const statusMap = {
-      pending: { label: "未対応", variant: "warning" as const },
-      reviewing: { label: "確認中", variant: "secondary" as const },
-      escalated: { label: "エスカレーション", variant: "danger" as const },
-      resolved: { label: "解決済み", variant: "success" as const }
-    };
-    
-    const statusInfo = statusMap[status as keyof typeof statusMap] || statusMap.pending;
-    return <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>;
-  };
-
-  if (!user) return null;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">データを読み込み中...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
-      {/* ヘッダー */}
-      <header className="bg-card border-b border-border p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold">CusHara Sentinel</h1>
+      {/* Header */}
+      <header className="bg-card/95 backdrop-blur border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-primary rounded-lg">
+                <Shield className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">CusHara Sentinel</h1>
+                <p className="text-sm text-muted-foreground">ダッシュボード</p>
+              </div>
             </div>
-            <Badge variant="secondary">{user.role === 'admin' ? '管理者' : user.role === 'manager' ? 'マネージャー' : 'メンバー'}</Badge>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground">
-              ようこそ、{user.email}さん
-            </span>
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                localStorage.removeItem("cushara_user");
-                window.location.href = "/login";
-              }}
-            >
-              ログアウト
-            </Button>
+            <div className="flex items-center space-x-3">
+              <Badge variant="outline">
+                {user?.email}
+              </Badge>
+              <Button asChild>
+                <Link to="/incident/new">
+                  <Plus className="w-4 h-4 mr-2" />
+                  新規事案登録
+                </Link>
+              </Button>
+              <Button variant="outline" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                ログアウト
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto p-6 space-y-6">
-        {/* アラート */}
-        <Alert className="border-danger bg-danger-muted">
-          <AlertTriangle className="h-4 w-4 text-danger" />
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Alert for high priority incidents */}
+        <Alert className="mb-6 border-danger bg-danger-muted">
+          <Bell className="h-4 w-4 text-danger" />
           <AlertDescription className="text-danger">
-            <strong>5件の高リスク事案</strong>が未対応です。早急な確認が必要です。
+            {highRiskIncidents > 0 ? (
+              `高リスク事案が ${highRiskIncidents} 件あります。早急な対応が必要です。`
+            ) : (
+              '現在、高リスク事案はありません。'
+            )}
           </AlertDescription>
         </Alert>
 
-        {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="bg-primary text-primary-foreground">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">総事案数</CardTitle>
               <FileText className="h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalIncidents}</div>
-              <p className="text-xs text-primary-foreground/80">
-                今月 +12% 増加
+              <div className="text-2xl font-bold">{totalIncidents}</div>
+              <p className="text-xs opacity-80">
+                登録された全事案
               </p>
             </CardContent>
           </Card>
@@ -146,9 +112,9 @@ const Dashboard = () => {
               <Clock className="h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.pendingReviews}</div>
-              <p className="text-xs text-warning-foreground/80">
-                24時間以内の確認推奨
+              <div className="text-2xl font-bold">{pendingIncidents}</div>
+              <p className="text-xs opacity-80">
+                対応待ち・審査中
               </p>
             </CardContent>
           </Card>
@@ -159,8 +125,8 @@ const Dashboard = () => {
               <AlertTriangle className="h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.highRiskCases}</div>
-              <p className="text-xs text-danger-foreground/80">
+              <div className="text-2xl font-bold">{highRiskIncidents}</div>
+              <p className="text-xs opacity-80">
                 スコア80以上
               </p>
             </CardContent>
@@ -172,68 +138,149 @@ const Dashboard = () => {
               <CheckCircle className="h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.resolvedThisMonth}</div>
-              <p className="text-xs text-success-foreground/80">
-                今月の解決数
+              <div className="text-2xl font-bold">{resolvedIncidents}</div>
+              <p className="text-xs opacity-80">
+                対応完了
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* 最近の事案 */}
+        {/* Recent Incidents */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Activity className="w-5 h-5" />
+            <CardTitle className="flex items-center justify-between">
               <span>最近の事案</span>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/incident/new">新規登録</Link>
+              </Button>
             </CardTitle>
-            <CardDescription>
-              AI判定による最新のカスハラ事案一覧
-            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {recentIncidents.map(incident => (
-                <div key={incident.id} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors">
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center space-x-3">
-                      <Badge variant="outline">{incident.id}</Badge>
-                      <Badge variant="secondary">{incident.type}</Badge>
-                      {getStatusBadge(incident.status)}
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {incident.description}
-                    </p>
-                    <div className="flex items-center space-x-2">
-                      {incident.category.map(cat => (
-                        <Badge key={cat} variant="outline" className="text-xs">
-                          {cat}
+            {incidents && incidents.length > 0 ? (
+              <div className="space-y-4">
+                {incidents.slice(0, 5).map((incident) => (
+                  <div key={incident.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                    <div className="flex-1">
+                      <h4 className="font-semibold">{incident.title}</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {incident.description.length > 100 
+                          ? `${incident.description.substring(0, 100)}...`
+                          : incident.description
+                        }
+                      </p>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Badge 
+                          variant={
+                            incident.status === 'resolved' ? 'default' :
+                            incident.status === 'escalated' ? 'destructive' :
+                            incident.status === 'reviewing' ? 'secondary' : 'outline'
+                          }
+                        >
+                          {incident.status === 'pending' && '対応待ち'}
+                          {incident.status === 'reviewing' && '審査中'}
+                          {incident.status === 'resolved' && '解決済み'}
+                          {incident.status === 'escalated' && 'エスカレーション'}
                         </Badge>
-                      ))}
+                        {incident.ai_risk_score && (
+                          <Badge 
+                            variant={
+                              incident.ai_risk_score >= 80 ? 'destructive' :
+                              incident.ai_risk_score >= 60 ? 'secondary' : 'outline'
+                            }
+                          >
+                            リスクスコア: {incident.ai_risk_score}
+                          </Badge>
+                        )}
+                        {incident.ai_is_cushara && (
+                          <Badge variant="destructive">カスハラ該当</Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground">
+                        {new Date(incident.incident_date).toLocaleDateString('ja-JP')}
+                      </p>
                     </div>
                   </div>
-                  <div className="text-right space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium">リスクスコア:</span>
-                      <Badge variant={getRiskColor(incident.riskScore) as any}>
-                        {incident.riskScore}
-                      </Badge>
-                    </div>
-                    <Progress 
-                      value={incident.riskScore} 
-                      className="w-20"
-                    />
-                  </div>
+                ))}
+                <div className="text-center pt-4">
+                  <Button asChild variant="outline">
+                    <Link to="/incidents">すべての事案を見る</Link>
+                  </Button>
                 </div>
-              ))}
-            </div>
-            <div className="mt-4 text-center">
-              <Button variant="outline">
-                すべての事案を表示
-              </Button>
-            </div>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">事案がありません</h3>
+                <p className="text-muted-foreground mb-4">
+                  新しい事案を登録して、システムの利用を開始しましょう。
+                </p>
+                <Button asChild>
+                  <Link to="/incident/new">
+                    <Plus className="w-4 h-4 mr-2" />
+                    初回事案を登録
+                  </Link>
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
+
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-3 gap-6 mt-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Users className="w-5 h-5 mr-2" />
+                ユーザー管理
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                組織のユーザー権限を管理
+              </p>
+              <Button variant="outline" className="w-full" disabled>
+                近日対応予定
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <TrendingUp className="w-5 h-5 mr-2" />
+                分析レポート
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                事案の統計と傾向分析
+              </p>
+              <Button variant="outline" className="w-full" disabled>
+                近日対応予定
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Shield className="w-5 h-5 mr-2" />
+                運用ポリシー
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                システム運用ルールの確認・編集
+              </p>
+              <Button variant="outline" className="w-full" disabled>
+                近日対応予定
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );

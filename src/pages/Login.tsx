@@ -1,38 +1,55 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Shield } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Shield, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: ""
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { signIn, user } = useAuth();
+  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  if (user) {
+    navigate("/dashboard");
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // デモ用の簡単な認証
-    const validUsers = [
-      { email: "admin@company.com", password: "admin123", role: "admin" },
-      { email: "manager@company.com", password: "manager123", role: "manager" },
-      { email: "member@company.com", password: "member123", role: "member" }
-    ];
+    setLoading(true);
+    setError("");
 
-    const user = validUsers.find(u => 
-      u.email === credentials.email && u.password === credentials.password
-    );
-
-    if (user) {
-      // デモ用：ローカルストレージに保存
-      localStorage.setItem("cushara_user", JSON.stringify(user));
-      window.location.href = "/dashboard";
-    } else {
-      setError("メールアドレスまたはパスワードが正しくありません");
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        setError(error.message);
+        toast({
+          variant: "destructive",
+          title: "ログインエラー",
+          description: error.message,
+        });
+      } else {
+        toast({
+          title: "ログイン成功",
+          description: "ダッシュボードに移動します",
+        });
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setError("ログインに失敗しました");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,15 +76,15 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">メールアドレス</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="user@company.com"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({...credentials, email: e.target.value})}
+                  placeholder="admin@cushara-sentinel.jp"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -76,8 +93,8 @@ const Login = () => {
                 <Input
                   id="password"
                   type="password"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
@@ -94,17 +111,18 @@ const Login = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-primary hover:bg-primary/90 transition-colors"
+                disabled={loading}
               >
-                ログイン
+                {loading ? "ログイン中..." : "ログイン"}
               </Button>
             </form>
 
             <div className="mt-6 p-4 bg-muted rounded-lg text-sm">
-              <p className="font-medium mb-2">デモアカウント:</p>
+              <p className="font-medium mb-2">テストアカウント:</p>
               <div className="space-y-1 text-muted-foreground">
-                <p>• 管理者: admin@company.com / admin123</p>
-                <p>• マネージャー: manager@company.com / manager123</p>
-                <p>• メンバー: member@company.com / member123</p>
+                <p>• 管理者: admin@cushara-sentinel.jp / admin123</p>
+                <p>• マネージャー: manager@cushara-sentinel.jp / manager123</p>
+                <p>• メンバー: member@cushara-sentinel.jp / member123</p>
               </div>
             </div>
           </CardContent>
