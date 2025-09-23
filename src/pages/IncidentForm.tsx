@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCreateIncident } from "@/hooks/useIncidents";
+import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Upload, 
   FileText, 
@@ -34,6 +38,12 @@ const IncidentForm = () => {
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const createIncident = useCreateIncident();
+  const { toast } = useToast();
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -52,26 +62,70 @@ const IncidentForm = () => {
 
   const analyzeWithAI = async () => {
     if (!formData.description.trim()) {
-      alert("事案内容を入力してください");
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "事案内容を入力してください",
+      });
       return;
     }
 
     setIsAnalyzing(true);
     
-    // AIアナリシスのダミー実装
+    // AIアナリシスのダミー実装（実際にはOpenAI APIを使用）
     setTimeout(() => {
+      // 簡単なキーワードベースの判定
+      const content = formData.description.toLowerCase();
+      const isHarassment = 
+        content.includes('脅迫') ||
+        content.includes('暴言') ||
+        content.includes('詐欺') ||
+        content.includes('潰してやる') ||
+        content.includes('責任者を出せ') ||
+        content.includes('2時間') ||
+        content.includes('長時間');
+
+      const categories = [];
+      if (content.includes('脅迫') || content.includes('潰してやる')) {
+        categories.push('脅迫');
+      }
+      if (content.includes('暴言') || content.includes('詐欺')) {
+        categories.push('暴言');
+      }
+      if (content.includes('2時間') || content.includes('長時間')) {
+        categories.push('長時間拘束');
+      }
+      if (content.includes('責任者')) {
+        categories.push('過度な要求');
+      }
+
+      const riskScore = isHarassment ? 
+        Math.min(95, 60 + categories.length * 15 + Math.floor(Math.random() * 20)) :
+        Math.floor(Math.random() * 30);
+
       const dummyAnalysis = {
-        is_cushara: formData.description.includes("怒") || formData.description.includes("脅") || Math.random() > 0.3,
-        categories: ["暴言", "過度な要求"],
-        risk_score: Math.floor(Math.random() * 40) + 60, // 60-100のランダム
-        reasoning: "入力されたテキストから、顧客による不適切な言動が確認されました。特に威圧的な表現や過度な要求が含まれており、従業員の心理的負担となる可能性があります。",
-        recommended_actions: ["上司へ報告", "記録の保存", "法務相談を検討"],
-        guideline_refs: ["東京都条例第3条", "対策指針2-1"]
+        is_cushara: isHarassment,
+        categories,
+        risk_score: riskScore,
+        reasoning: isHarassment ?
+          `入力内容から${categories.join('、')}の要素が確認され、東京都指針に基づきカスタマーハラスメントに該当する可能性が高いと判定されます。` :
+          '入力内容からは、カスタマーハラスメントに該当する明確な要素は検出されませんでした。お客様の正当な申し出の範囲内と判定されます。',
+        recommended_actions: isHarassment ?
+          ["上司への報告", "記録の保存", "法務相談を検討"] :
+          ["通常対応", "適切なフォローアップ"],
+        guideline_refs: isHarassment ?
+          ["東京都指針第2条", "迷惑行為防止条例"] :
+          ["顧客対応基本方針"]
       };
       
       setAiAnalysis(dummyAnalysis);
       setIsAnalyzing(false);
       setShowAnalysis(true);
+      
+      toast({
+        title: "AI分析完了",
+        description: `カスハラ該当性: ${dummyAnalysis.is_cushara ? '該当' : '非該当'}、リスクスコア: ${dummyAnalysis.risk_score}`,
+      });
     }, 2000);
   };
 
@@ -81,22 +135,68 @@ const IncidentForm = () => {
     return "success";
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // 実際の実装では、ここでSupabaseにデータを保存
-    alert("事案が正常に登録されました。ID: INC-" + Date.now().toString().slice(-6));
+    if (!formData.title.trim() || !formData.description.trim()) {
+      toast({
+        variant: "destructive",
+        title: "入力エラー",
+        description: "タイトルと事案内容は必須です。",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
     
-    // フォームをリセット
-    setFormData({
-      title: "",
-      description: "",
-      source: "email",
-      attachments: [],
-      maskPersonalInfo: true
-    });
-    setAiAnalysis(null);
-    setShowAnalysis(false);
+    try {
+      const incidentData = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        personal_info_masked: formData.maskPersonalInfo,
+        incident_date: new Date().toISOString(),
+        ...(aiAnalysis && {
+          ai_is_cushara: aiAnalysis.is_cushara,
+          ai_categories: aiAnalysis.categories,
+          ai_risk_score: aiAnalysis.risk_score,
+          ai_reasoning: aiAnalysis.reasoning,
+          ai_recommended_actions: aiAnalysis.recommended_actions,
+          ai_guideline_refs: aiAnalysis.guideline_refs,
+          ai_analyzed_at: new Date().toISOString()
+        })
+      };
+
+      await createIncident.mutateAsync(incidentData);
+
+      toast({
+        title: "事案登録完了",
+        description: `事案「${formData.title}」が正常に登録されました。`,
+      });
+
+      // フォームをリセット
+      setFormData({
+        title: "",
+        description: "",
+        source: "email",
+        attachments: [],
+        maskPersonalInfo: true
+      });
+      setAiAnalysis(null);
+      setShowAnalysis(false);
+
+      // ダッシュボードに戻る
+      navigate("/dashboard");
+      
+    } catch (error) {
+      console.error('事案登録エラー:', error);
+      toast({
+        variant: "destructive",
+        title: "登録エラー",
+        description: "事案の登録中にエラーが発生しました。",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -364,8 +464,8 @@ const IncidentForm = () => {
             <Button type="button" variant="outline">
               下書き保存
             </Button>
-            <Button type="submit" disabled={!aiAnalysis}>
-              事案を登録
+            <Button type="submit" disabled={!formData.title.trim() || !formData.description.trim() || isSubmitting}>
+              {isSubmitting ? "登録中..." : "事案を登録"}
             </Button>
           </div>
         </form>
