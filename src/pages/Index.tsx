@@ -169,7 +169,7 @@ const Index = () => {
                 システムにアクセス <ChevronRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+            <Button size="lg" variant="outline" className="bg-white text-primary border-white hover:bg-primary-foreground hover:text-primary" asChild>
               <Link to="/about-ai-anti-cushara">
                 <Phone className="mr-2 h-4 w-4" /> お問い合わせ
               </Link>
