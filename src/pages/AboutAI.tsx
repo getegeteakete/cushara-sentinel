@@ -2,8 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Header from "@/components/Header";
 import { 
-  Shield, 
+  Shield,
   Brain, 
   Lock, 
   Phone, 
@@ -19,44 +20,29 @@ const AboutAI = () => {
   const [language, setLanguage] = useState<'ja' | 'en'>('ja');
   return (
     <div className="min-h-screen bg-background">
-      {/* ヘッダー */}
-      <header className="bg-card/95 backdrop-blur border-b border-border">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary rounded-lg">
-                <Shield className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">CusHara Sentinel</h1>
-                <p className="text-sm text-muted-foreground">
-                  {language === 'ja' ? 'AI活用カスハラ対策システム' : 'AI-Powered Customer Harassment Prevention System'}
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Button 
-                variant={language === 'ja' ? "default" : "outline"} 
-                size="sm"
-                onClick={() => setLanguage('ja')}
-              >
-                <Languages className="w-4 h-4 mr-2" />
-                日本語
-              </Button>
-              <Button 
-                variant={language === 'en' ? "default" : "outline"} 
-                size="sm"
-                onClick={() => setLanguage('en')}
-              >
-                English
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-6xl mx-auto px-6 py-12 space-y-12">
+        {/* Language Toggle */}
+        <div className="flex justify-center space-x-2 mb-8">
+          <Button 
+            variant={language === 'ja' ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setLanguage('ja')}
+          >
+            <Languages className="w-4 h-4 mr-2" />
+            日本語
+          </Button>
+          <Button 
+            variant={language === 'en' ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setLanguage('en')}
+          >
+            <Languages className="w-4 h-4 mr-2" />
+            English
+          </Button>
+        </div>
+
         {/* メインタイトル */}
         <div className="text-center space-y-4">
           <h2 className="text-4xl font-bold text-primary">

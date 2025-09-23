@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Shield, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Header from "@/components/Header";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -54,8 +55,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex items-center justify-center p-4 min-h-[calc(100vh-80px)]">
+        <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4 shadow-lg">
             <Shield className="w-8 h-8 text-primary-foreground" />
@@ -131,6 +134,7 @@ const Login = () => {
         <p className="text-center text-sm text-muted-foreground mt-4">
           © 2024 CusHara Sentinel - AI活用カスハラ対策システム
         </p>
+        </div>
       </div>
     </div>
   );

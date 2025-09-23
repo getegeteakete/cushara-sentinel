@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Header from "@/components/Header";
 import { 
-  Shield, 
   Brain, 
   Users, 
   ChevronRight,
@@ -16,33 +16,7 @@ import {
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/95 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary rounded-lg">
-                <Shield className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">CusHara Sentinel</h1>
-                <p className="text-sm text-muted-foreground">AIカスハラ対策システム</p>
-              </div>
-            </div>
-            <div className="flex space-x-3">
-              <Button asChild variant="outline">
-                <Link to="/about-ai-anti-cushara">AI活用について</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/guide">使い方ガイド</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/login">ログイン</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="py-20 px-6">

@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import Header from "@/components/Header";
 import { 
-  Shield, 
   Users, 
   FileText, 
   Brain, 
@@ -17,45 +17,14 @@ import {
   PlusCircle,
   BarChart3,
   Settings,
-  LogIn,
-  Home
+  LogIn
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Guide = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* ヘッダー */}
-      <header className="bg-card/95 backdrop-blur border-b border-border">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary rounded-lg">
-                <Shield className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">CusHara Sentinel</h1>
-                <p className="text-sm text-muted-foreground">使い方ガイド</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/">
-                  <Home className="w-4 h-4 mr-2" />
-                  ホーム
-                </Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link to="/login">
-                  <LogIn className="w-4 h-4 mr-2" />
-                  ログイン
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-6xl mx-auto px-6 py-12 space-y-12">
         {/* タイトル */}

@@ -12,13 +12,14 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import Header from "@/components/Header";
 import { 
   Upload, 
   FileText, 
   Mic, 
   Mail, 
   Brain, 
-  Shield, 
+  Shield,
   AlertTriangle,
   CheckCircle,
   Eye,
@@ -196,7 +197,9 @@ const IncidentForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="p-6">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* ヘッダー */}
         <div className="space-y-2">
@@ -465,6 +468,7 @@ const IncidentForm = () => {
             </Button>
           </div>
         </form>
+      </div>
       </div>
     </div>
   );

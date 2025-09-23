@@ -4,8 +4,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useIncidents } from "@/hooks/useIncidents";
+import Header from "@/components/Header";
 import { 
-  Shield, 
+  Shield,
   FileText, 
   Clock, 
   AlertTriangle, 
@@ -13,13 +14,12 @@ import {
   Users,
   TrendingUp,
   Bell,
-  Plus,
-  LogOut
+  Plus
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { data: incidents, isLoading } = useIncidents();
 
   // Calculate statistics
@@ -27,10 +27,6 @@ const Dashboard = () => {
   const pendingIncidents = incidents?.filter(i => i.status === 'pending' || i.status === 'reviewing').length || 0;
   const highRiskIncidents = incidents?.filter(i => i.ai_risk_score && i.ai_risk_score >= 80).length || 0;
   const resolvedIncidents = incidents?.filter(i => i.status === 'resolved').length || 0;
-
-  const handleLogout = async () => {
-    await signOut();
-  };
 
   if (isLoading) {
     return (
@@ -45,37 +41,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card/95 backdrop-blur border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary rounded-lg">
-                <Shield className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">CusHara Sentinel</h1>
-                <p className="text-sm text-muted-foreground">ダッシュボード</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Badge variant="outline">
-                {user?.email}
-              </Badge>
-              <Button asChild>
-                <Link to="/incident/new">
-                  <Plus className="w-4 h-4 mr-2" />
-                  新規事案登録
-                </Link>
-              </Button>
-              <Button variant="outline" onClick={handleLogout}>
-                <LogOut className="w-4 h-4 mr-2" />
-                ログアウト
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
