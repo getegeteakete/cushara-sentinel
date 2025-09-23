@@ -47,9 +47,6 @@ const AboutAI = () => {
       <main className="max-w-6xl mx-auto px-6 py-12 space-y-12">
         {/* メインタイトル */}
         <div className="text-center space-y-4">
-          <Badge className="bg-primary text-primary-foreground">
-            東京都 取組2：AIを活用したシステム等の導入 対応
-          </Badge>
           <h2 className="text-4xl font-bold text-primary">
             当社はAIを活用してカスタマーハラスメント対策を実施しています
           </h2>

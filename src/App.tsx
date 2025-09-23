@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import IncidentForm from "./pages/IncidentForm";
 import AboutAI from "./pages/AboutAI";
+import Guide from "./pages/Guide";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -46,6 +47,7 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              <Route path="/guide" element={<Guide />} />
               <Route path="/about-ai-anti-cushara" element={<AboutAI />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

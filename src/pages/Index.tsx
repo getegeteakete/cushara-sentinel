@@ -33,6 +33,9 @@ const Index = () => {
               <Button asChild variant="outline">
                 <Link to="/about-ai-anti-cushara">AI活用について</Link>
               </Button>
+              <Button asChild variant="outline">
+                <Link to="/guide">使い方ガイド</Link>
+              </Button>
               <Button asChild>
                 <Link to="/login">ログイン</Link>
               </Button>
@@ -44,9 +47,6 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <Badge className="mb-4 bg-primary text-primary-foreground">
-            東京都 取組2：AIを活用したシステム等の導入 対応
-          </Badge>
           <h2 className="text-5xl font-bold mb-6 text-primary">
             CusHara Sentinel
           </h2>
@@ -58,6 +58,9 @@ const Index = () => {
               <Link to="/login">
                 システムにログイン <ChevronRight className="ml-2 h-4 w-4" />
               </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to="/guide">使い方ガイド</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/about-ai-anti-cushara">AI活用詳細を見る</Link>
@@ -205,7 +208,6 @@ const Index = () => {
       <footer className="py-8 px-6 border-t border-border bg-muted/30">
         <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
           <p>© 2024 CusHara Sentinel - カスタマーハラスメント対策AIシステム</p>
-          <p className="mt-2">東京都「取組2：AIを活用したシステム等の導入」対応</p>
         </div>
       </footer>
     </div>
