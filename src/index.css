@@ -6,16 +6,16 @@
 @layer base {
   :root {
     /* Base colors */
-    --background: 248 250 252;
-    --foreground: 215 28% 17%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     
     /* Card system */
     --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+    --card-foreground: 222.2 84% 4.9%;
     
     /* Popover system */
     --popover: 0 0% 100%;
-    --popover-foreground: 215 28% 17%;
+    --popover-foreground: 222.2 84% 4.9%;
     
     /* Primary - Professional Blue */
     --primary: 213 94% 68%;
@@ -53,9 +53,9 @@
     --destructive-foreground: 0 0% 100%;
     
     /* Borders and inputs */
-    --border: 215 16% 93%;
-    --input: 215 16% 93%;
-    --ring: 213 94% 68%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
     
     --radius: 0.5rem;
     
@@ -82,14 +82,14 @@
   }
 
   .dark {
-    --background: 215 28% 17%;
-    --foreground: 0 0% 100%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
     
-    --card: 215 28% 17%;
-    --card-foreground: 0 0% 100%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
     
-    --popover: 215 28% 17%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
     
     --primary: 213 94% 68%;
     --primary-foreground: 215 28% 17%;
@@ -120,9 +120,9 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 215 16% 25%;
-    --input: 215 16% 25%;
-    --ring: 213 94% 68%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
     
     --sidebar-background: 215 28% 12%;
     --sidebar-foreground: 0 0% 100%;
