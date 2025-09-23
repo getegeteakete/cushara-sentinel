@@ -16,13 +16,13 @@ import {
 
 const AboutAI = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-muted via-background to-secondary-muted">
+    <div className="min-h-screen bg-background">
       {/* ヘッダー */}
       <header className="bg-card/95 backdrop-blur border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-primary rounded-lg">
+              <div className="p-2 bg-primary rounded-lg">
                 <Shield className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
@@ -50,7 +50,7 @@ const AboutAI = () => {
           <Badge className="bg-primary text-primary-foreground">
             東京都 取組2：AIを活用したシステム等の導入 対応
           </Badge>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold text-primary">
             当社はAIを活用してカスタマーハラスメント対策を実施しています
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -195,7 +195,7 @@ const AboutAI = () => {
         </Card>
 
         {/* 相談窓口 */}
-        <Card className="shadow-xl border-0 bg-gradient-primary text-primary-foreground">
+        <Card className="shadow-xl border-0 bg-primary text-primary-foreground">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Phone className="w-6 h-6" />

@@ -127,7 +127,7 @@ const Dashboard = () => {
 
         {/* 統計カード */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-gradient-primary text-primary-foreground">
+          <Card className="bg-primary text-primary-foreground">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">総事案数</CardTitle>
               <FileText className="h-4 w-4" />
@@ -140,7 +140,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-warning text-warning-foreground">
+          <Card className="bg-warning text-warning-foreground">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">未対応</CardTitle>
               <Clock className="h-4 w-4" />
@@ -153,7 +153,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-danger text-danger-foreground">
+          <Card className="bg-danger text-danger-foreground">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">高リスク</CardTitle>
               <AlertTriangle className="h-4 w-4" />
@@ -166,7 +166,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-success text-success-foreground">
+          <Card className="bg-success text-success-foreground">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">解決済み</CardTitle>
               <CheckCircle className="h-4 w-4" />
