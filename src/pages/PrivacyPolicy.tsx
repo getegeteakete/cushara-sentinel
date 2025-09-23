@@ -151,7 +151,7 @@ const PrivacyPolicy = () => {
                 <p>個人情報の取り扱いに関するお問い合わせは、以下までご連絡ください。</p>
                 <div className="bg-muted p-4 rounded-lg">
                   <p className="font-medium">CusHara Sentinel サポート</p>
-                  <p>メール: support@cushara-sentinel.jp</p>
+                  <p>メール: sup@cushara99.com</p>
                   <p>受付時間: 平日 9:00-17:00</p>
                 </div>
               </div>
