@@ -75,12 +75,6 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
-      backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-muted)) 100%)',
-        'gradient-success': 'linear-gradient(135deg, hsl(var(--success)) 0%, hsl(var(--success-muted)) 100%)',
-        'gradient-warning': 'linear-gradient(135deg, hsl(var(--warning)) 0%, hsl(var(--warning-muted)) 100%)',
-        'gradient-danger': 'linear-gradient(135deg, hsl(var(--danger)) 0%, hsl(var(--danger-muted)) 100%)',
-      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
