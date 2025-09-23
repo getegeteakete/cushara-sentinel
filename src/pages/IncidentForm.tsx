@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateIncident } from "@/hooks/useIncidents";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -72,61 +73,56 @@ const IncidentForm = () => {
 
     setIsAnalyzing(true);
     
-    // AIアナリシスのダミー実装（実際にはOpenAI APIを使用）
-    setTimeout(() => {
-      // 簡単なキーワードベースの判定
-      const content = formData.description.toLowerCase();
-      const isHarassment = 
-        content.includes('脅迫') ||
-        content.includes('暴言') ||
-        content.includes('詐欺') ||
-        content.includes('潰してやる') ||
-        content.includes('責任者を出せ') ||
-        content.includes('2時間') ||
-        content.includes('長時間');
-
-      const categories = [];
-      if (content.includes('脅迫') || content.includes('潰してやる')) {
-        categories.push('脅迫');
+    try {
+      console.log('Starting AI analysis...');
+      
+      const { data: result, error } = await supabase.functions.invoke('analyze-incident', {
+        body: {
+          title: formData.title,
+          description: formData.description,
+          incident_date: new Date().toISOString()
+        }
+      });
+      
+      if (error) {
+        console.error('AI analysis error:', error);
+        throw new Error(error.message || 'AI分析に失敗しました');
       }
-      if (content.includes('暴言') || content.includes('詐欺')) {
-        categories.push('暴言');
+      
+      if (!result) {
+        throw new Error('AI分析結果が空です');
       }
-      if (content.includes('2時間') || content.includes('長時間')) {
-        categories.push('長時間拘束');
-      }
-      if (content.includes('責任者')) {
-        categories.push('過度な要求');
-      }
-
-      const riskScore = isHarassment ? 
-        Math.min(95, 60 + categories.length * 15 + Math.floor(Math.random() * 20)) :
-        Math.floor(Math.random() * 30);
-
-      const dummyAnalysis = {
-        is_cushara: isHarassment,
-        categories,
-        risk_score: riskScore,
-        reasoning: isHarassment ?
-          `入力内容から${categories.join('、')}の要素が確認され、東京都指針に基づきカスタマーハラスメントに該当する可能性が高いと判定されます。` :
-          '入力内容からは、カスタマーハラスメントに該当する明確な要素は検出されませんでした。お客様の正当な申し出の範囲内と判定されます。',
-        recommended_actions: isHarassment ?
-          ["上司への報告", "記録の保存", "法務相談を検討"] :
-          ["通常対応", "適切なフォローアップ"],
-        guideline_refs: isHarassment ?
-          ["東京都指針第2条", "迷惑行為防止条例"] :
-          ["顧客対応基本方針"]
+      
+      console.log('AI analysis result:', result);
+      
+      // 分析結果をフォーマット（guideline_refsをlegal_groundsから設定）
+      const analysis = {
+        is_cushara: result.is_cushara,
+        categories: result.categories || [],
+        risk_score: result.risk_score || 0,
+        reasoning: result.reasoning || 'AI分析結果が不完全でした',
+        recommended_actions: result.recommended_actions || [],
+        guideline_refs: result.legal_grounds || []
       };
       
-      setAiAnalysis(dummyAnalysis);
-      setIsAnalyzing(false);
+      setAiAnalysis(analysis);
       setShowAnalysis(true);
       
       toast({
         title: "AI分析完了",
-        description: `カスハラ該当性: ${dummyAnalysis.is_cushara ? '該当' : '非該当'}、リスクスコア: ${dummyAnalysis.risk_score}`,
+        description: `カスハラ該当性: ${analysis.is_cushara ? '該当' : '非該当'}、リスクスコア: ${analysis.risk_score}`,
       });
-    }, 2000);
+      
+    } catch (error) {
+      console.error('AI analysis failed:', error);
+      toast({
+        variant: "destructive",
+        title: "AI分析エラー",
+        description: error instanceof Error ? error.message : 'AI分析中にエラーが発生しました',
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const getRiskColor = (score: number) => {
