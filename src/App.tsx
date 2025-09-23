@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import IncidentForm from "./pages/IncidentForm";
 import AboutAI from "./pages/AboutAI";
 import Guide from "./pages/Guide";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -49,6 +51,8 @@ function App() {
               />
               <Route path="/guide" element={<Guide />} />
               <Route path="/about-ai-anti-cushara" element={<AboutAI />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />

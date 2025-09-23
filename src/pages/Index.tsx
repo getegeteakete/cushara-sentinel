@@ -180,8 +180,22 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border bg-muted/30">
-        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          <p>© 2024 CusHara Sentinel - カスタマーハラスメント対策AIシステム</p>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="text-center md:text-left">
+              <p className="text-sm text-muted-foreground">
+                © 2024 CusHara Sentinel - カスタマーハラスメント対策AIシステム
+              </p>
+            </div>
+            <div className="flex space-x-6">
+              <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                プライバシーポリシー
+              </Link>
+              <Link to="/terms-of-service" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                利用規約
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

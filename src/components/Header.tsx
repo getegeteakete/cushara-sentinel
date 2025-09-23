@@ -106,6 +106,31 @@ const Header = () => {
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>規約・ポリシー</NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <div className="grid gap-3 p-4 w-[300px]">
+                          <Link
+                            to="/privacy-policy"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">プライバシーポリシー</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              個人情報の取り扱いについて
+                            </p>
+                          </Link>
+                          <Link
+                            to="/terms-of-service"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">利用規約</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              サービス利用の条件について
+                            </p>
+                          </Link>
+                        </div>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
 
@@ -154,6 +179,31 @@ const Header = () => {
                           AI活用について
                         </NavigationMenuLink>
                       </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>規約・ポリシー</NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <div className="grid gap-3 p-4 w-[300px]">
+                          <Link
+                            to="/privacy-policy"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">プライバシーポリシー</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              個人情報の取り扱いについて
+                            </p>
+                          </Link>
+                          <Link
+                            to="/terms-of-service"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">利用規約</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              サービス利用の条件について
+                            </p>
+                          </Link>
+                        </div>
+                      </NavigationMenuContent>
                     </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
@@ -219,6 +269,24 @@ const Header = () => {
                   >
                     AI活用について
                   </Link>
+                  <Link
+                    to="/privacy-policy"
+                    className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                      isActive("/privacy-policy") ? "bg-accent text-accent-foreground" : ""
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    プライバシーポリシー
+                  </Link>
+                  <Link
+                    to="/terms-of-service"
+                    className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                      isActive("/terms-of-service") ? "bg-accent text-accent-foreground" : ""
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    利用規約
+                  </Link>
                   <div className="border-t border-border pt-2 mt-2">
                     <div className="px-3 py-2">
                       <Badge variant="outline">{user.email}</Badge>
@@ -265,6 +333,24 @@ const Header = () => {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     AI活用について
+                  </Link>
+                  <Link
+                    to="/privacy-policy"
+                    className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                      isActive("/privacy-policy") ? "bg-accent text-accent-foreground" : ""
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    プライバシーポリシー
+                  </Link>
+                  <Link
+                    to="/terms-of-service"
+                    className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                      isActive("/terms-of-service") ? "bg-accent text-accent-foreground" : ""
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    利用規約
                   </Link>
                   <div className="border-t border-border pt-2 mt-2">
                     <Button asChild className="w-full">

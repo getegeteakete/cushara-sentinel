@@ -89,6 +89,20 @@ serve(async (req) => {
     if (!response.ok) {
       const errorData = await response.text();
       console.error('OpenAI API error:', errorData);
+      
+      // Handle specific quota error
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'OpenAI APIの使用量上限に達しました', 
+            details: 'APIキーの使用量制限を確認してください'
+          }), {
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
+      
       throw new Error(`OpenAI API error: ${response.status}`);
     }
 
