@@ -196,30 +196,41 @@ const AboutAI = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Phone className="w-6 h-6" />
-              <span>お問い合わせ・相談窓口</span>
+              <span>東京都カスタマーハラスメント総合相談窓口</span>
             </CardTitle>
             <CardDescription className="text-primary-foreground/80">
-              AIシステムに関するご質問やご相談について
+              事業者、従業員だけでなく、顧客等も対象に、カスハラ全般に関する相談に対応します
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <h3 className="font-semibold">カスハラ対策窓口</h3>
-                <p className="text-sm text-primary-foreground/90">
-                  TEL: 03-XXXX-XXXX<br />
-                  Email: cushara-support@company.com<br />
-                  受付時間: 平日 9:00-17:00
-                </p>
-              </div>
+            <div className="space-y-4">
+              <p className="text-sm text-primary-foreground/90">
+                労務管理やメンタルケア、消費者保護等に関する経験が豊富な専門相談員が丁寧に回答します。
+              </p>
               
-              <div className="space-y-2">
-                <h3 className="font-semibold">AI・システム関連</h3>
-                <p className="text-sm text-primary-foreground/90">
-                  TEL: 03-YYYY-YYYY<br />
-                  Email: ai-system@company.com<br />
-                  受付時間: 平日 10:00-16:00
-                </p>
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <h3 className="font-semibold">相談方法</h3>
+                  <p className="text-sm text-primary-foreground/90">
+                    電話またはWEB相談フォームで受け付けています（無料・匿名相談可）
+                  </p>
+                </div>
+                
+                <div className="space-y-2">
+                  <h3 className="font-semibold">連絡先</h3>
+                  <p className="text-sm text-primary-foreground/90">
+                    電話: 0120-182-276<br />
+                    WEB相談フォーム: <a href="https://0a789475.form.kintoneapp.com/waiting/?_formCode=59e5fb8c524cb69c97e123b10817ebd807b1ffec10b2c7072714f2c35e4a6dfd" className="underline hover:no-underline" target="_blank" rel="noopener noreferrer">こちらから</a>
+                  </p>
+                </div>
+                
+                <div className="space-y-2">
+                  <h3 className="font-semibold">相談時間</h3>
+                  <p className="text-sm text-primary-foreground/90">
+                    平日 9:00〜17:00<br />
+                    ※土日祝日及び12月29日から1月3日までは除く
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>
