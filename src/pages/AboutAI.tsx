@@ -237,7 +237,7 @@ const AboutAI = () => {
           </CardContent>
         </Card>
 
-        {/* 相談窓口 */}
+        {/* 東京都カスタマーハラスメント総合相談窓口 */}
         <Card className="shadow-xl border-0 bg-primary text-primary-foreground">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
