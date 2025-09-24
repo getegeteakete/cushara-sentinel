@@ -124,7 +124,7 @@ const Login = () => {
         </Card>
 
         <p className="text-center text-sm text-muted-foreground mt-4">
-          © 2024 CusHara Sentinel - AI活用カスハラ対策システム
+          © 2025 CusHara Sentinel - AI活用カスハラ対策システム
         </p>
         </div>
       </div>

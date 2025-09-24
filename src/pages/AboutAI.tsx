@@ -297,7 +297,7 @@ const AboutAI = () => {
             <a href="#" className="text-primary hover:underline">お問い合わせ</a>
           </div>
           <p className="text-xs text-muted-foreground">
-            © 2024 CusHara Sentinel - 東京都AI活用カスハラ対策システム
+            © 2025 CusHara Sentinel - 東京都AI活用カスハラ対策システム
           </p>
         </div>
       </main>
