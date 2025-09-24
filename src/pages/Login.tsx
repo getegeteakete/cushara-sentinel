@@ -13,10 +13,12 @@ import Header from "@/components/Header";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
-  const { signIn, user } = useAuth();
+  const { signIn, signUp, user } = useAuth();
   const { toast } = useToast();
 
   // Redirect if already logged in
@@ -30,25 +32,46 @@ const Login = () => {
     setLoading(true);
     setError("");
 
+    if (isSignUp && password !== confirmPassword) {
+      setError("パスワードが一致しません");
+      setLoading(false);
+      return;
+    }
+
+    if (isSignUp && password.length < 6) {
+      setError("パスワードは6文字以上である必要があります");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const { error } = await signIn(email, password);
+      let result;
+      if (isSignUp) {
+        result = await signUp(email, password);
+      } else {
+        result = await signIn(email, password);
+      }
       
-      if (error) {
-        setError(error.message);
+      if (result.error) {
+        setError(result.error.message);
         toast({
           variant: "destructive",
-          title: "ログインエラー",
-          description: error.message,
+          title: isSignUp ? "アカウント作成エラー" : "ログインエラー",
+          description: result.error.message,
         });
       } else {
+        const successMessage = isSignUp 
+          ? "アカウントが作成されました。ダッシュボードに移動します。" 
+          : "ログインしました。ダッシュボードに移動します。";
+        
         toast({
-          title: "ログイン成功",
-          description: "ダッシュボードに移動します",
+          title: isSignUp ? "アカウント作成成功" : "ログイン成功",
+          description: successMessage,
         });
         navigate("/dashboard");
       }
     } catch (err) {
-      setError("ログインに失敗しました");
+      setError(isSignUp ? "アカウント作成に失敗しました" : "ログインに失敗しました");
     } finally {
       setLoading(false);
     }
@@ -73,9 +96,14 @@ const Login = () => {
 
         <Card className="shadow-xl border-0 bg-card/95 backdrop-blur">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">ログイン</CardTitle>
+            <CardTitle className="text-2xl text-center">
+              {isSignUp ? "アカウント作成" : "ログイン"}
+            </CardTitle>
             <CardDescription className="text-center">
-              システムにアクセスするには認証が必要です
+              {isSignUp 
+                ? "新しいアカウントを作成してください" 
+                : "システムにアクセスするには認証が必要です"
+              }
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -96,11 +124,26 @@ const Login = () => {
                 <Input
                   id="password"
                   type="password"
+                  placeholder={isSignUp ? "6文字以上のパスワード" : "パスワード"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
+
+              {isSignUp && (
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">パスワード（確認）</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="パスワードを再入力"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
 
               {error && (
                 <Alert className="border-danger bg-danger-muted">
@@ -116,8 +159,28 @@ const Login = () => {
                 className="w-full bg-primary hover:bg-primary/90 transition-colors"
                 disabled={loading}
               >
-                {loading ? "ログイン中..." : "ログイン"}
+                {loading 
+                  ? (isSignUp ? "アカウント作成中..." : "ログイン中...") 
+                  : (isSignUp ? "アカウント作成" : "ログイン")
+                }
               </Button>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSignUp(!isSignUp);
+                    setError("");
+                    setConfirmPassword("");
+                  }}
+                  className="text-sm text-primary hover:underline"
+                >
+                  {isSignUp 
+                    ? "既にアカウントをお持ちですか？ログイン" 
+                    : "アカウントをお持ちでない方はこちら"
+                  }
+                </button>
+              </div>
             </form>
 
           </CardContent>
