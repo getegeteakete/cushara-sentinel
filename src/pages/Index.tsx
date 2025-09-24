@@ -25,7 +25,7 @@ const Index = () => {
             CusHara Sentinel
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            最新のAI技術でカスタマーハラスメントを適切に判定し、従業員の働きやすい環境づくりを支援する企業専用システム
+            最新の<span className="bg-primary/20 px-1 rounded">AI技術</span>で<span className="bg-primary/20 px-1 rounded">カスタマーハラスメント</span>を適切に判定し、従業員の働きやすい環境づくりを支援する企業専用システム
           </p>
           <div className="flex justify-center space-x-4">
             <Button size="lg" asChild>
