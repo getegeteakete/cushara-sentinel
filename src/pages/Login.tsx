@@ -120,14 +120,6 @@ const Login = () => {
               </Button>
             </form>
 
-            <div className="mt-6 p-4 bg-muted rounded-lg text-sm">
-              <p className="font-medium mb-2">テストアカウント:</p>
-              <div className="space-y-1 text-muted-foreground">
-                <p>• 管理者: admin@cushara-sentinel.jp / admin123</p>
-                <p>• マネージャー: manager@cushara-sentinel.jp / manager123</p>
-                <p>• メンバー: member@cushara-sentinel.jp / member123</p>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
