@@ -365,26 +365,14 @@ const Guide = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <h3 className="font-semibold">技術サポート</h3>
-                <p className="text-sm text-primary-foreground/90">
-                  システムの使い方や技術的な問題について<br />
-                  TEL: 03-XXXX-XXXX<br />
-                  Email: support@cushara-sentinel.com<br />
-                  受付時間: 平日 9:00-18:00
-                </p>
-              </div>
-              
-              <div className="space-y-2">
-                <h3 className="font-semibold">カスハラ対策相談</h3>
-                <p className="text-sm text-primary-foreground/90">
-                  カスハラ対応に関する専門相談<br />
-                  TEL: 03-YYYY-YYYY<br />
-                  Email: consultation@cushara-sentinel.com<br />
-                  受付時間: 平日 10:00-17:00
-                </p>
-              </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold">カスハラ対策相談</h3>
+              <p className="text-sm text-primary-foreground/90">
+                カスハラ対応に関する専門相談<br />
+                TEL: 03-YYYY-YYYY<br />
+                Email: consultation@cushara-sentinel.com<br />
+                受付時間: 平日 10:00-17:00
+              </p>
             </div>
           </CardContent>
         </Card>
