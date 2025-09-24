@@ -61,13 +61,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/dashboard`
         }
       });
+
+      // アカウント作成成功時に歓迎メールを送信
+      if (!error && data.user) {
+        try {
+          await supabase.functions.invoke('send-welcome-email', {
+            body: {
+              userEmail: email,
+              userName: data.user.email?.split('@')[0] || ''
+            }
+          });
+        } catch (emailError) {
+          console.log('歓迎メール送信でエラーが発生しました:', emailError);
+          // メール送信エラーはアカウント作成の成功を妨げない
+        }
+      }
+
       return { error };
     } catch (error) {
       return { error: error as Error };

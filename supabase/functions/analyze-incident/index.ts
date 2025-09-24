@@ -140,7 +140,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: 'AI分析中にエラーが発生しました', 
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error'
       }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
