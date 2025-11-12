@@ -89,6 +89,9 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-foreground mb-2">
             CusHara Sentinel
           </h1>
+          <p className="text-lg font-semibold text-primary mb-1">
+            株式会社AMENOHABAKIRI
+          </p>
           <p className="text-muted-foreground">
             カスタマーハラスメント対策AIシステム
           </p>

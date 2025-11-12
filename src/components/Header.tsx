@@ -135,7 +135,10 @@ const Header = () => {
                 </NavigationMenu>
 
                 <div className="flex items-center space-x-3 ml-4">
-                  <Badge variant="outline">{user.email}</Badge>
+                  <div className="flex flex-col items-end">
+                    <Badge variant="outline" className="font-semibold">株式会社AMENOHABAKIRI</Badge>
+                    <span className="text-xs text-muted-foreground mt-1">{user.email}</span>
+                  </div>
                   <Button asChild>
                     <Link to="/incident/new">
                       <Plus className="w-4 h-4 mr-2" />
@@ -288,8 +291,9 @@ const Header = () => {
                     利用規約
                   </Link>
                   <div className="border-t border-border pt-2 mt-2">
-                    <div className="px-3 py-2">
-                      <Badge variant="outline">{user.email}</Badge>
+                    <div className="px-3 py-2 space-y-2">
+                      <Badge variant="outline" className="font-semibold">株式会社AMENOHABAKIRI</Badge>
+                      <div className="text-xs text-muted-foreground">{user.email}</div>
                     </div>
                     <Button
                       variant="outline"
