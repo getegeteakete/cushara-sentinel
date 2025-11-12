@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useIncidents } from "@/hooks/useIncidents";
 import Header from "@/components/Header";
-import { PasswordProtection } from "@/components/PasswordProtection";
 import { 
   Shield,
   FileText, 
@@ -41,9 +40,8 @@ const Dashboard = () => {
   }
 
   return (
-    <PasswordProtection correctPassword="793179">
-      <div className="min-h-screen bg-background">
-        <Header />
+    <div className="min-h-screen bg-background">
+      <Header />
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 py-8">
@@ -251,7 +249,6 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-    </PasswordProtection>
   );
 };
 
