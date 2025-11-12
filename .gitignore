@@ -22,3 +22,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Supabase
+.branches
+.temp
+
+# 機密情報を含むSQLファイル
+create_admin_user.sql
+update_admin_user.sql
+fix_admin_user.sql
+check_user_status.sql
+
+# 個人情報を含む手順書
+ログイン設定完了手順.md
+ログイン問題解決手順.md
+ログイン手順.md

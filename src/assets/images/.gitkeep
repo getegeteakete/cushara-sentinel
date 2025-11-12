@@ -1,0 +1,22 @@
+# このフォルダに画像ファイルを配置してください
+
+## 推奨フォルダ構成
+
+```
+images/
+  ├── hero/           # ヒーローセクション用の画像
+  ├── features/       # 機能紹介用の画像
+  ├── icons/          # アイコン画像
+  ├── logos/          # ロゴ
+  └── backgrounds/    # 背景画像
+```
+
+## 使用例
+
+```tsx
+import myImage from '@/assets/images/my-image.jpg';
+
+<img src={myImage} alt="説明" />
+```
+
+

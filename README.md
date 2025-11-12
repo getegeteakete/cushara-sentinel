@@ -1,73 +1,148 @@
-# Welcome to your Lovable project
+# CusHara Sentinel
 
-## Project info
+AIを活用したカスタマーハラスメント対策システム
 
-**URL**: https://lovable.dev/projects/6965850f-009e-4ce7-aa92-b908ed045b84
+![License](https://img.shields.io/badge/license-Proprietary-blue)
+![React](https://img.shields.io/badge/React-18.3.1-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue)
+![Supabase](https://img.shields.io/badge/Supabase-2.57.4-green)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📋 概要
 
-**Use Lovable**
+**CusHara Sentinel**は、東京都の指針に基づき、AIが客観的にカスタマーハラスメントを判定し、従業員の働きやすい環境づくりを支援する企業専用システムです。
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6965850f-009e-4ce7-aa92-b908ed045b84) and start prompting.
+### 主な特徴
 
-Changes made via Lovable will be committed automatically to this repo.
+- 🤖 **AI自動判定**: 東京都の条例・指針に基づく客観的な判定
+- 📊 **事案管理**: メール・電話・チャットなど様々な形式の一元管理
+- 👥 **権限管理**: 4段階の権限設定（admin/manager/member/auditor）
+- 📈 **リスクスコアリング**: 0-100のスコアで優先順位を明確化
+- 📝 **証拠保全**: 音声・メール・チャットログの適切な保管
+- 📄 **報告書自動生成**: 法的根拠を明記した報告書を自動作成
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🚀 クイックスタート
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 必要環境
 
-Follow these steps:
+- Node.js 18以上
+- npm または yarn
+- Supabaseアカウント
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+### インストール
+
+```bash
+# リポジトリをクローン
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# プロジェクトディレクトリに移動
+cd cushara-sentinel
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 依存関係をインストール
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 開発サーバーを起動
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### 環境変数の設定
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+`.env.local` ファイルを作成し、Supabaseの接続情報を設定：
 
-**Use GitHub Codespaces**
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+詳細なセットアップ手順は [QUICK_START.md](./QUICK_START.md) をご覧ください。
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 🛠 技術スタック
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+このプロジェクトは以下の技術で構築されています：
 
-## How can I deploy this project?
+### フロントエンド
+- **React** 18.3.1 - UIライブラリ
+- **TypeScript** 5.8.3 - 型安全性
+- **Vite** 5.4.19 - ビルドツール
+- **Tailwind CSS** 3.4.17 - スタイリング
+- **shadcn/ui** - UIコンポーネント
 
-Simply open [Lovable](https://lovable.dev/projects/6965850f-009e-4ce7-aa92-b908ed045b84) and click on Share -> Publish.
+### バックエンド
+- **Supabase** 2.57.4 - BaaS（認証・データベース）
+- **PostgreSQL** - データベース
 
-## Can I connect a custom domain to my Lovable project?
+### その他
+- **React Router** 6.30.1 - ルーティング
+- **TanStack Query** 5.83.0 - データフェッチング
+- **React Hook Form** 7.61.1 - フォーム管理
+- **Zod** 3.25.76 - バリデーション
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📁 プロジェクト構造
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```
+cushara-sentinel/
+├── src/
+│   ├── components/     # Reactコンポーネント
+│   ├── pages/         # ページコンポーネント
+│   ├── hooks/         # カスタムフック
+│   ├── integrations/  # Supabase統合
+│   └── lib/           # ユーティリティ
+├── supabase/
+│   ├── migrations/    # データベースマイグレーション
+│   └── functions/     # Supabase Functions
+├── public/            # 静的ファイル
+└── docs/             # ドキュメント
+```
+
+---
+
+## 🔐 セキュリティ
+
+- Row Level Security (RLS) による適切なアクセス制御
+- ロールベースの権限管理
+- 個人情報のマスキング機能
+- 暗号化されたパスワード保存
+
+---
+
+## 📚 ドキュメント
+
+- [クイックスタートガイド](./QUICK_START.md)
+- [セットアップオプション](./SETUP_OPTIONS.md)
+- [Supabaseセットアップガイド](./SUPABASE_SETUP_GUIDE.md)
+- [画像の使い方](./画像の使い方ガイド.md)
+
+---
+
+## 🤝 コントリビューション
+
+このプロジェクトは現在クローズドソースです。
+
+---
+
+## 📄 ライセンス
+
+© 2025 CusHara Sentinel. All rights reserved.
+
+---
+
+## 📞 サポート
+
+問題が発生した場合は、Issuesセクションで報告してください。
+
+---
+
+## 🎯 今後の予定
+
+- [ ] AI分析機能の強化
+- [ ] 音声ファイルの自動文字起こし
+- [ ] 多言語対応
+- [ ] モバイルアプリ開発
+- [ ] レポート機能の拡充
